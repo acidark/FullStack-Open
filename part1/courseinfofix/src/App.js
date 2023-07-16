@@ -1,3 +1,19 @@
+const Part = (props) =>{
+  return(
+    <div>{props.name} {props.exer}</div>
+  )
+}
+
+const Content = (props) =>{
+  return(
+      <div>
+      <Part name={props.part1} exer={props.exec1} />
+      <Part name={props.part2} exer={props.exec2} />
+      <Part name={props.part3} exer={props.exec3} />
+      </div>
+  )
+}
+
 const App = () => {
   const course = 'Half stack application development'
   const part1 = 'Fundamentals of react'
@@ -9,9 +25,9 @@ const App = () => {
   return (
     <div>
       <h1>{course}</h1>
-      <p>{part1} {exec1}</p>
-      <p>{part2} {exec2}</p>
-      <p>{part3} {exec3}</p>
+
+      <Content part1={part1} exec1={exec1} part2={part2} exec2={exec2} part3={part3} exec3={exec3} />
+
       <p>Number of exercises {exec1+exec2+exec3}</p>
     </div>
   );
