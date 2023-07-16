@@ -1,4 +1,3 @@
-
 const Header = ({course}) => {
   console.log(course)
   return(
@@ -9,13 +8,12 @@ const Header = ({course}) => {
 }
 const Part = ({parte}) =>{
   console.log(parte)
-  return(  
+  return(
   <p>
   {parte.name} {parte.exec}
-  </p>  
+  </p>
   )
 }
-
 const Contents = ({partes}) =>{
 
   const parto = partes[0]
@@ -32,7 +30,6 @@ const Contents = ({partes}) =>{
     </div>
   )
 }
-
 const Total = ({partes}) =>{
   console.log(partes)
   const total= partes[0].exec + partes[1].exec + partes[2].exec
@@ -44,8 +41,6 @@ const Total = ({partes}) =>{
     </div>
   )
 }
-
-
 const App = () => {
 
   const course = 'Half stack application development'
@@ -58,5 +53,4 @@ const App = () => {
       </div>
     )
 }
-
 export default App;
