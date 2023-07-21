@@ -1,6 +1,8 @@
 const Part = (props) =>{
+  console.log(props)
+  const {name,exec} = props.part
   return(
-    <div>{props.part.name} {props.part.exec}</div>
+    <div>{name} {exec}</div>
   )
 }
 
@@ -12,6 +14,7 @@ const Total = (props) =>{
   )
 }
 const Content = (props) =>{
+  
   console.log(props)
   return(
       <div>
@@ -22,6 +25,7 @@ const Content = (props) =>{
   )
 }
 const App = () => {
+
   const course = {name: 'Half stack application development',parts: [{name:'Fundamentals of react',exec:10},
   {name:'Using props to pass data',exec:11},
   {name:'State of component',exec : 20}]}
