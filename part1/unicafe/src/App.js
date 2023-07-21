@@ -3,6 +3,7 @@ import { useState } from "react";
   const Statistics = ({good,bad,neutral}) => {
     // console.log(props)
     // console.log(good,bad,neutral)
+    // const total = () = {}
     return(
       <div>
         <p>{good/(good+bad+neutral)}% positive</p>
@@ -12,9 +13,9 @@ import { useState } from "react";
   }
   const Button =({handle,text}) => <button onClick={handle}>{text}</button>
   const App =() =>{
-  const [bad,setBad] = useState(0)
-  const [neutral,setNeutral] = useState(0)
-  const [good,setGood] = useState(0)
+  // const [bad,setBad] = useState(0)
+  // const [neutral,setNeutral] = useState(0)
+  // const [good,setGood] = useState(0)
 
   const [click,setClicks] = useState({
     good:0,bad:0,neutral:0
