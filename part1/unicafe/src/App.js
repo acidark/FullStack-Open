@@ -1,21 +1,53 @@
 import { useState } from "react";
 
-  const Statistics = ({good,bad,neutral,total}) => {
+  const StatisticsLine = ({value,text}) => {
+
+    return(
+      <tr>
+        <td>{value}</td>
+        <td>{text}</td>
+      </tr>
+    )
+  }
+  const Statistics = ({good,bad,neutral}) => {
     // console.log(props)
     // console.log(good,bad,neutral)
     // const total = () = {}
-    if (total===0){
+    const total = () => good+bad+neutral
+    if (total()===0){
       return (
-        <div>No feedback given</div>
+       <div>No feedback given</div>
       )
     }
     return(
       <div>
-        <p>{good} good</p>
+        {/* <p>{good} good</p>
         <p>{neutral} neutral</p>
-        <p>{bad} bad</p>
-        <p>{good/total}% positive</p>
-        <p>{(good-bad)/total} avg</p>
+        <p>{bad} bad</p> */}
+      <table>
+        <tbody>
+        <StatisticsLine value={good} text="good" />
+        <StatisticsLine value={neutral} text="neutral" />
+        <StatisticsLine value={bad} text ="bad" />
+        <StatisticsLine value={total()} text="total" />
+        <StatisticsLine value={good/total()} text="% positive" />
+        <StatisticsLine value={(good-bad)/total()} text="average" />
+        {/* <table> */}
+          {/* <tbody> */}
+        
+            {/* <tr> */}
+              {/* {total()} all */}
+            {/* </tr> */}
+            {/* <tr> */}
+             {/* {good/total()}% positive */}
+            {/* </tr> */}
+            {/* <tr> */}
+              {/* {(good-bad)/total()} avg */}
+            {/* </tr> */}
+          {/* </tbody> */}
+        {/* // </table> */}
+          </tbody>
+        </table>
       </div>
     )  
   }
@@ -26,7 +58,7 @@ import { useState } from "react";
   // const [good,setGood] = useState(0)
 
   const [click,setClicks] = useState({
-    good:0,bad:0,neutral:0,total:0
+    good:0,bad:0,neutral:0
   })
 
   const handleSetBad = ()=>{
@@ -34,8 +66,7 @@ import { useState } from "react";
 //    const newClick = {
       setClicks({
       ...click,
-      bad:click.bad+1,
-      total:click.total+1
+      bad:click.bad+1
       //neutral:click.neutral,
       //good:click.good
       //good:click.good,
@@ -48,7 +79,6 @@ import { useState } from "react";
     setClicks(
     {...click,
       good : click.good+1,
-      total:click.total+1
 //      bad:click.bad,
 //      neutral:click.neutral
 
@@ -61,7 +91,6 @@ import { useState } from "react";
     //const newClick = {
       ...click,
         neutral:click.neutral+1,
-        total:click.total+1
 //      bad:click.bad,
 //      good:click.good
     })
@@ -71,13 +100,16 @@ import { useState } from "react";
 
   return (
     <div>
-      <h1>stats</h1>
-
+      <h1>Statistics</h1>
+      {/* if(click.total===0) return (<div>No feedback given</div>)  */}
+      
       {/* <p>{click.good} good</p>
       <p>{click.neutral} neutral</p>
       <p>{click.bad} bad</p>
       <p>{click.total} all</p> */}
-      <Statistics good={click.good} bad={click.bad} neutral={click.neutral} total={click.total} />
+      {/* <StatisticsLine good={click.good} bad={click.bad} neutral={click.neutral} /> */}
+      <Statistics good={click.good} bad={click.bad} neutral={click.neutral} /> 
+
       {/* <p>{click.good/click.good+click.bad+click.neutral} %positive</p> */}
       {/* <p>{(click.good+click.bad)/sumOfClicks} avg</p> */}
 
