@@ -1,13 +1,21 @@
 import { useState } from "react";
 
-  const Statistics = ({good,bad,neutral}) => {
+  const Statistics = ({good,bad,neutral,total}) => {
     // console.log(props)
     // console.log(good,bad,neutral)
     // const total = () = {}
+    if (total===0){
+      return (
+        <div>No feedback given</div>
+      )
+    }
     return(
       <div>
-        <p>{good/(good+bad+neutral)}% positive</p>
-        <p>{(good-bad)/(good+neutral+bad)} avg</p>
+        <p>{good} good</p>
+        <p>{neutral} neutral</p>
+        <p>{bad} bad</p>
+        <p>{good/total}% positive</p>
+        <p>{(good-bad)/total} avg</p>
       </div>
     )  
   }
@@ -18,48 +26,58 @@ import { useState } from "react";
   // const [good,setGood] = useState(0)
 
   const [click,setClicks] = useState({
-    good:0,bad:0,neutral:0
+    good:0,bad:0,neutral:0,total:0
   })
 
   const handleSetBad = ()=>{
     // console.log(click.bad)
-    const newClick = {
+//    const newClick = {
+      setClicks({
+      ...click,
       bad:click.bad+1,
-      neutral:click.neutral,
-      good:click.good
+      total:click.total+1
+      //neutral:click.neutral,
+      //good:click.good
       //good:click.good,
       //neutral:click.neutral
-    }
-    setClicks(newClick)
+    })
+    //setClicks(newClick)
   }
   const handleSetGood = () =>{
-    const newClick = {
+    //const newClick = {
+    setClicks(
+    {...click,
       good : click.good+1,
-      bad:click.bad,
-      neutral:click.neutral
+      total:click.total+1
+//      bad:click.bad,
+//      neutral:click.neutral
 
-    }
-    setClicks(newClick)
+    })
+    //setClicks(newClick)
   }
 
   const handleSetNeutral = () =>{
-    const newClick = {
-      neutral:click.neutral+1,
-      bad:click.bad,
-      good:click.good
-    }
-    setClicks(newClick)
+    setClicks({
+    //const newClick = {
+      ...click,
+        neutral:click.neutral+1,
+        total:click.total+1
+//      bad:click.bad,
+//      good:click.good
+    })
+    //setClicks(newClick)
   }
-  const sumOfClicks = (click.bad+click.good+click.neutral)
+  //const sumOfClicks = (click.bad+click.good+click.neutral)
 
   return (
     <div>
       <h1>stats</h1>
-      <p>{click.good} good</p>
+
+      {/* <p>{click.good} good</p>
       <p>{click.neutral} neutral</p>
       <p>{click.bad} bad</p>
-      <p>{sumOfClicks} all</p>
-      <Statistics good={click.good} bad={click.bad} neutral={click.neutral} />
+      <p>{click.total} all</p> */}
+      <Statistics good={click.good} bad={click.bad} neutral={click.neutral} total={click.total} />
       {/* <p>{click.good/click.good+click.bad+click.neutral} %positive</p> */}
       {/* <p>{(click.good+click.bad)/sumOfClicks} avg</p> */}
 
