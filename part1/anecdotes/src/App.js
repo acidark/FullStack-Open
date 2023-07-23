@@ -15,7 +15,7 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [anecdoteScore,setAnecdoteScore] = useState(new Uint8Array(anecdotes.length))
-  const [maxim,setMaxi] = useState(0)
+  // const [maxim,setMaxi] = useState(0)
   const nextSelect = () => {
     let rand = getRandom()
     while(selected === rand){ (
