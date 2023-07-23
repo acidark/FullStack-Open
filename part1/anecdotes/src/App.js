@@ -12,37 +12,36 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
+  const [selected, setSelected] = useState(0)
+  const [anecdoteScore,setAnecdoteScore] = useState(new Uint8Array(anecdotes.length))
   const nextSelect = () => {
     let rand = getRandom()
     while(selected === rand){ (
         rand = getRandom()
     )}
     setSelected(rand)
-    // anecdoteScore[rand]+=1
-    const copy = [...anecdoteScore]
-    copy[rand]+=1
 
-    setAnecdoteScore(copy)
-    console.log(anecdoteScore)
- 
   }
-  const [selected, setSelected] = useState(0)
-  const [anecdoteScore,setAnecdoteScore] = useState(new Uint8Array(anecdotes.length))
-  // const [anecdoteScore,setAnecdoteScore] = useState([])
-  // const copy =[...anecdoteScore]
+
+  const vote = () =>{
+    const copy = [...anecdoteScore]
+    copy[selected]+=1
+    setAnecdoteScore(copy)
+    console.log(anecdoteScore) 
+  }
+
   const getRandom = () =>{
      let min = Math.ceil(0)
      let max = Math.floor(anecdotes.length-1)
      let random = Math.floor(Math.random()*(max-min+1)+min)
     return random;
    }
-
-
   return (
     <div>
       {anecdotes[selected]}
       <div>
       <button onClick={nextSelect}>next</button>
+      <button onClick={vote}>vote</button>
       </div>
     </div>
   )
