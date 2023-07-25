@@ -7,7 +7,7 @@ const Part = ({part}) =>{
 }
 
 const Header = ({header}) => {
-  console.log(header)
+//   console.log(header)
   return(
   <div>
     <h2>{header}</h2>
