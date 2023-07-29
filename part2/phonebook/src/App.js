@@ -3,14 +3,11 @@ import Filter from './components/Filter'
 import Listo from './components/Listo'
 import Addp from './components/AddPerson'
 import axios from 'axios'
+import personService from './services/persons'
+
 const App = () => {
 
-  // const [persons, setPersons] = useState([
-  //   { name: 'Arto Hellas', number: '040-123456', id: 1 },
-  //   { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-  //   { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-  //   { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  // ])
+
   const [persons,setPersons] = useState([])
   const [newSearch,setNewSearch] = useState('') 
   const [newName, setNewName] = useState('')
@@ -24,39 +21,25 @@ const App = () => {
   //   ff ? setShowAll(false) : setShowAll(true)
   //   console.log(ff)
   // }
-  // useEffect(()=>{
-  //   const promiseHandler = response =>{
-  //     console.log('enter2')
-  //     setPersons(response.data)
-  //   }  
-  //   const promise = axios.get("http://localhost:3001/persons")
-  //   console.log('firt')
-  //   promise.then({promiseHandler})    
-  // },[])
 
-  useEffect(()=>{
-    console.log('effect')
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response=> {
-        console.log('fullfilled')
-        const data = response.data
-        setPersons(data)
-      })
+    useEffect(()=>{
+     const promiseHandler = response =>{
+        setPersons(response.data)
+     }  
+    const promise = axios.get("http://localhost:3001/persons")
+    promise.then(promiseHandler)    
   },[])
 
   // useEffect(()=>{
-  //   const promiseHandler= response =>{
-  //     console.log('fullfilled')
-  //     const data = response.data
-  //     console.log("data")
-  //     setPersons(data)
-  //   }
-  //   const promise = axios.get("http://localhost:3001/persons")
-  //   promise.then(console.log("entering"))
-  //   // console.log("entering")
+  //   console.log('effect')
+  //   axios
+  //     .get("http://localhost:3001/persons")
+  //     .then(response=> {
+  //       console.log('fullfilled')
+  //       const data = response.data
+  //       setPersons(data)
+  //     })
   // },[])
-  // console.log('enter',persons)
 
   const handleNewName = (event) => {
     setNewName(event.target.value)
@@ -79,16 +62,22 @@ const App = () => {
       name : newName,
       number : newNumber
     }
-    setPersons(persons.concat(newObject))
-    setNewName('')
-    setNewNumber('')
+    personService
+    .create(newObject)
+    .then(returnedPerson =>{
+      setPersons(persons.concat(returnedPerson))
+      setNewName('')
+      setNewNumber('')
+    })
+    // setPersons(persons.concat(newObject))
+    // setNewName('')
+    // setNewNumber('')
   };
   // const findPerson = ''     
   const checkingParams = (event) =>{
     event.preventDefault()
     const foundOrNot = exists(newName)
     const toAdd = foundOrNot ? window.alert(`${newName} already in phonebook`) : addPerson();
-    
   }
   return (
     <div>
