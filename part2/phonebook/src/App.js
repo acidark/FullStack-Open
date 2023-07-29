@@ -62,9 +62,18 @@ const App = () => {
       name : newName,
       number : newNumber
     }
-    personService
-    .create(newObject)
+    // personService
+    // .create(newObject)
+    // .then(returnedPerson =>{
+    //   setPersons(persons.concat(returnedPerson))
+    //   setNewName('')
+    //   setNewNumber('')
+    // })
+    axios
+    .post("http://localhost:3001/persons",newObject)
+    .then(response=>response.data)
     .then(returnedPerson =>{
+      console.log(returnedPerson)
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
