@@ -30,17 +30,6 @@ const App = () => {
     promise.then(promiseHandler)    
   },[])
 
-  // useEffect(()=>{
-  //   console.log('effect')
-  //   axios
-  //     .get("http://localhost:3001/persons")
-  //     .then(response=> {
-  //       console.log('fullfilled')
-  //       const data = response.data
-  //       setPersons(data)
-  //     })
-  // },[])
-
   const handleNewName = (event) => {
     setNewName(event.target.value)
   }
@@ -62,27 +51,15 @@ const App = () => {
       name : newName,
       number : newNumber
     }
-    // personService
-    // .create(newObject)
-    // .then(returnedPerson =>{
-    //   setPersons(persons.concat(returnedPerson))
-    //   setNewName('')
-    //   setNewNumber('')
-    // })
-    axios
-    .post("http://localhost:3001/persons",newObject)
-    .then(response=>response.data)
+    personService
+    .create(newObject)
     .then(returnedPerson =>{
-      console.log(returnedPerson)
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
     })
-    // setPersons(persons.concat(newObject))
-    // setNewName('')
-    // setNewNumber('')
+
   };
-  // const findPerson = ''     
   const checkingParams = (event) =>{
     event.preventDefault()
     const foundOrNot = exists(newName)
