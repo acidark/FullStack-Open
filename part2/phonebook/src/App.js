@@ -42,7 +42,18 @@ const App = () => {
    }
   
   const personToShow = persons.filter((person)=>person.name.toLowerCase().includes(newSearch.toLowerCase()))
-
+  
+  const deleteOb = id =>{
+    // const note = persons.find(n=>id===n.id)
+    personService
+    .deleteOb(id)
+    // .then(returnedData => {
+      // setPersons(persons.map(n=>id !==n.id ? n : returnedData))
+    setPersons(persons.filter(n=>n.id!==id))
+    // axios
+    // .delete(`http://localhost:3001/persons/${id}`)
+    // })
+  }
   const exists = (props) => {
     return persons.find(person => person.name == props)
   }
@@ -79,7 +90,7 @@ const App = () => {
 
       <h3>Numbers</h3>
       <ul>
-        <Listo nmbs={personToShow} />
+        <Listo nmbs={personToShow} deleteOb={deleteOb} />
       </ul>
     </div>
   )
