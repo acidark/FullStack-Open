@@ -1,17 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createElement } from 'react'
 import Filter from './components/Filter'
 import Listo from './components/Listo'
 import Addp from './components/AddPerson'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
 
-
+  const [errorMessage,setErrorMessage] = useState(null)
   const [persons,setPersons] = useState([])
   const [newSearch,setNewSearch] = useState('') 
   const [newName, setNewName] = useState('')
   const [newNumber,setNewNumber] = useState('')
+  const [addMsg,setAddmsg] = useState(null)
+  const [notiType,setNotiType] = useState(null)
   // const [showAll,setShowAll] = useState(true)
 
 
@@ -37,25 +40,41 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-   const handleNewSearch = (event) => {
-     setNewSearch(event.target.value)
-   }
+  const handleNewSearch = (event) => {
+    setNewSearch(event.target.value)
+  }
   
   const personToShow = persons.filter((person)=>person.name.toLowerCase().includes(newSearch.toLowerCase()))
   
+  
+  // const handleDeletion = (props)={
+
+  // }
   const deleteOb = id =>{
-    // const note = persons.find(n=>id===n.id)
+    const person = persons.find(n=>id===n.id)
     personService
     .deleteOb(id)
-    // .then(returnedData => {
-      // setPersons(persons.map(n=>id !==n.id ? n : returnedData))
+    .then(()=>{
+      console.log('sucess')
+    })  // setPersons(persons.filter(n=>n.id!==id))
+    .catch(error =>{
+    //console.log(person.name)
+     setErrorMessage(`${person.name} already deleted`)
+     setNotiType('error')
+     setTimeout(()=>{
+      setErrorMessage(null)
+      setNotiType(null)
+     },5000)
+     });
     setPersons(persons.filter(n=>n.id!==id))
+
     // axios
     // .delete(`http://localhost:3001/persons/${id}`)
     // })
   }
   const exists = (props) => {
-    return persons.find(person => person.name == props)
+     return persons.find(person =>person.name == props)
+
   }
   const addPerson = () =>{
     const newObject = {
@@ -68,17 +87,35 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
+      setAddmsg(`${newObject.name}, added to the list`)
+      setNotiType('add')
+      setTimeout(()=>{
+        setAddmsg(null)
+        setNotiType(null)
+      },5000)
     })
-
   };
   const checkingParams = (event) =>{
     event.preventDefault()
     const foundOrNot = exists(newName)
-    const toAdd = foundOrNot ? window.alert(`${newName} already in phonebook`) : addPerson();
+    const windowx = () =>{
+      if (window.confirm(`${newName} already in phonebook, wanna replace the old number?`)){
+        const person = persons.find(n=>n.name===newName)
+        const changedNumber = {...person,number : newNumber}
+        personService
+        .update(person.id,changedNumber)
+        .then(returnedPerson=>{
+          setPersons(persons.map(n=>n.id!==person.id? n:returnedPerson))
+        })
+      }
+    }
+    const toAdd = foundOrNot ? windowx() : addPerson();
   }
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={addMsg} type={notiType} />
+      <Notification message={errorMessage} type={notiType} />
       filter shown by
       <Filter newSearch={newSearch} handleNewSearch={handleNewSearch} />
 
