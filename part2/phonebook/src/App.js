@@ -15,7 +15,6 @@ const App = () => {
   const [newNumber,setNewNumber] = useState('')
   const [addMsg,setAddmsg] = useState(null)
   const [notiType,setNotiType] = useState(null)
-  // const [showAll,setShowAll] = useState(true)
 
 
   // console.log(personToShow2)
