@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const morgan = require("morgan")
 
 let persons = [
     { 
@@ -28,23 +29,73 @@ app.get("/api/persons",(request,response)=>{
     response.json(persons)
 })
 
-// app.use(express())
-
 app.delete("/api/persons/:id",(req,res)=>{
     const id = Number(req.params.id)
     persons = persons.filter((n)=>n.id!==id)
     res.status(204).end()
 })
+const requestLogger = (request,response,next) => {
+    console.log('Method ',request.method)
+    console.log('Path ',request.path)
+    console.log('Body',request.body)
+    console.log('---')
+    next()
+}
+const unknownEndpoint = (request,response)=> {
+    response.status(404).send({
+        error: "unknown endpoint"
+    })
+}
+app.use(express.json())
+
+morgan.token('body',req=> JSON.stringify(req.body))
+app.use(morgan((tokens, req, res)=> {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.body(req,res)
+  ].join(' ')
+}))
+
+const generateId = () =>{
+    const newId = Math.floor(Math.random()*9999)
+    return persons.some((p)=> p.id===newId)
+    ? generateId() : newId
+}
+app.post("/api/persons",(req,res)=>{
+    const body = req.body
+    const duplicate = () => persons.some((p)=>p.name === body.name)
+    if(!body.name||!body.number) {
+        res.status(404).json({
+            error:"name or number missing"
+        })
+    }
+    else if(duplicate()){
+         res.status(404).json({
+            error:`${body.name} already in the phonebook`
+        })
+    } 
+    else {
+        const person = {
+            id : generateId(),
+            name : body.name,
+            number : body.number            
+        }
+        persons = persons.concat(person)
+        res.json(person)
+    }
+})
 
 app.get("/api/persons/:id",(req,res)=>{
     const id = Number(req.params.id)
     const person = persons.find((n)=>{
-        // console.log(n.id,typeof n.id,id, typeof id,n.id == id)
         return id===n.id})
     if(!person){
         res.status(204).end()
     }
-    // console.log(person.id,typeof person.id,id, typeof id, person.id===id)
     else {
         res.json(person)
     }
@@ -59,3 +110,4 @@ const PORT = 3001
 app.listen(PORT,()=>{
     console.log(`server listening on port ${PORT}`)
 })
+
