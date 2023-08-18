@@ -47,7 +47,8 @@ const unknownEndpoint = (request,response)=> {
     })
 }
 app.use(express.json())
-
+app.use(requestLogger)
+app.use(unknownEndpoint)
 morgan.token('body',req=> JSON.stringify(req.body))
 app.use(morgan((tokens, req, res)=> {
   return [
