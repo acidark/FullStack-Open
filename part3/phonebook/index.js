@@ -1,6 +1,10 @@
 const express = require("express")
 const app = express()
 const morgan = require("morgan")
+const cors = require("cors")
+app.use(cors())
+
+
 
 let persons = [
     { 
@@ -25,9 +29,7 @@ let persons = [
     }
 ]
 
-app.get("/api/persons",(request,response)=>{
-    response.json(persons)
-})
+
 
 app.delete("/api/persons/:id",(req,res)=>{
     const id = Number(req.params.id)
@@ -47,8 +49,9 @@ const unknownEndpoint = (request,response)=> {
     })
 }
 app.use(express.json())
-app.use(requestLogger)
-app.use(unknownEndpoint)
+
+// app.use(requestLogger)
+
 morgan.token('body',req=> JSON.stringify(req.body))
 app.use(morgan((tokens, req, res)=> {
   return [
@@ -60,6 +63,10 @@ app.use(morgan((tokens, req, res)=> {
     tokens.body(req,res)
   ].join(' ')
 }))
+app.get("/api/persons",(request,response)=>{
+    console.log("enter get")
+    response.json(persons)
+})
 
 const generateId = () =>{
     const newId = Math.floor(Math.random()*9999)
@@ -68,6 +75,7 @@ const generateId = () =>{
 }
 app.post("/api/persons",(req,res)=>{
     const body = req.body
+    console.log('enter')
     const duplicate = () => persons.some((p)=>p.name === body.name)
     if(!body.name||!body.number) {
         res.status(404).json({
@@ -106,6 +114,7 @@ app.get("/info",(req,res)=>{
     const currentDate = new Date()
     res.send(`<p>Phonebook has response for ${persons.length} people<p><p>${currentDate}<p>`)
 })
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT,()=>{
