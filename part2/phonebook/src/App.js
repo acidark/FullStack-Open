@@ -1,10 +1,10 @@
-import { useState, useEffect, createElement } from 'react'
-import Filter from './components/Filter'
 import Listo from './components/Listo'
 import Addp from './components/AddPerson'
 import axios from 'axios'
 import personService from './services/persons'
 import Notification from './components/Notification'
+import { useState,useEffect } from 'react'
+import Filter from './components/Filter'
 
 const App = () => {
 
@@ -25,11 +25,12 @@ const App = () => {
   // }
 
     useEffect(()=>{
-     const promiseHandler = response =>{
-        setPersons(response.data)
+      const promiseHandler = response =>{
+      setPersons(response)
      }  
-    const promise = axios.get("http://localhost:3001/persons")
-    promise.then(promiseHandler)    
+    personService
+    .getAll()
+    .then(promiseHandler)    
   },[])
 
   const handleNewName = (event) => {
