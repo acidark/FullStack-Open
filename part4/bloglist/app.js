@@ -8,11 +8,11 @@ const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 
 mongoose.connect(config.MONGODB_URI)
-.then(()=>{
+  .then(() => {
     logger.info('connected to db')
-}).catch(error=>{
+  }).catch(error => {
     logger.error('error connecting to MongoDB',error.message)
-})
+  })
 
 app.use(cors())
 app.use(express.json())
