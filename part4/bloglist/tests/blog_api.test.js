@@ -20,7 +20,7 @@ test('blogs return id property',async () => {
 })
 
 test('blog can be added to db',async () => {
-  const numberOfBlogsAtStart = (await Blog.find({})).length
+  const numberOfBlogsAtStart = await Blog.find({})
   // console.log(numberOfBlogs)
   const newBlog = {
     title : 'new blog',
@@ -33,8 +33,13 @@ test('blog can be added to db',async () => {
   .send(newBlog)
   .expect(201) 
   .expect('Content-Type',/application\/json/)
-  const numberOfBlogsAtEnd = (await Blog.find({})).length
-  expect(numberOfBlogsAtEnd).toBe(numberOfBlogsAtStart+1)
+  const numberOfBlogsAtEnd = await Blog.find({})
+  expect(numberOfBlogsAtEnd.length).toBe(numberOfBlogsAtStart.length+1)
+
+  const contents = numberOfBlogsAtEnd.map(blog => blog.title)
+  expect(contents).toContain(
+    "new blog"
+  )
 })
 
 afterAll(async () => {
