@@ -28,8 +28,8 @@ blogsRouter.post('/', (request, response,next) => {
   const blog = new Blog(request.body)
   blog
     .save()
-    .then(result => {
-      response.json(result)
+    .then(savedBlog => {
+      response.status(201).json(savedBlog)
     }).catch(error => next(error))
 })
 

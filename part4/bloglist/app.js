@@ -6,8 +6,9 @@ const logger = require('./utils/logger')
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
+TEST_MONGODB_URI = 'mongodb+srv://atomikx:d3AFlmFd6SzAcSgf@cluster0.ribgxny.mongodb.net/testBloglistApp?retryWrites=true&w=majority'
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.connect(TEST_MONGODB_URI)
   .then(() => {
     logger.info('connected to db')
   }).catch(error => {
