@@ -28,15 +28,6 @@ describe('indexing data', () => {
     expect(response.body[0].id).toBeDefined()
   })
 })
-  test('verifying likes parameter', async () => {
-    const response = await api
-    
-    .post('/api/blog')
-    .send(helper.initialBlogs[0])
-    .expect(201)
-    console.log(response.body.likes)
-    expect(response.body.likes).toEqual(0)
-  })
 
 describe('creating new blog', () => {
   test('blog can be added to db', async () => {
@@ -59,7 +50,23 @@ describe('creating new blog', () => {
       "new blog"
     )
   })
+
+  test('verifying likes parameter', async () => {
+  const response = await api  
+  .post('/api/blog')
+  .send(helper.initialBlogs[0])
+  .expect(201)
+  expect(response.body.likes).toEqual(0)
+  })
+
+  test('verifiyng if title or url properly are missing and throwing 404',async () => {
+    await api
+    .post('/api/blog')
+    .send(helper.emptyBlog)
+    .expect(400)
+  })
 })
+
 afterAll(async () => {
   await mongoose.connection.close()
 })

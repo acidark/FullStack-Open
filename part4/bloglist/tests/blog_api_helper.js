@@ -1,5 +1,7 @@
 // const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const emptyBlog = {}
+
 const initialBlogs = [
   {
     title: 'React patterns',
@@ -44,5 +46,6 @@ const blogsInDb = async () => {
 }
 module.exports = {
   initialBlogs,
-  blogsInDb
+  blogsInDb,
+  emptyBlog
 }
