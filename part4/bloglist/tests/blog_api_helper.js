@@ -1,13 +1,11 @@
 // const mongoose = require('mongoose')
 const Blog = require('../models/blog')
-
 const initialBlogs = [
   {
     title: 'React patterns',
     author: 'Michael Chan',
-    url: 'https://reactpatterns.com/',
-    likes: 7,
-  },
+    url: 'https://reactpatterns.com/'
+   },
   {
     title: 'Go To Statement Considered Harmful',
     author: 'Edsger W. Dijkstra',

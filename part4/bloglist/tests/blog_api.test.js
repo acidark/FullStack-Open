@@ -28,12 +28,20 @@ describe('indexing data', () => {
     expect(response.body[0].id).toBeDefined()
   })
 })
+  test('verifying likes parameter', async () => {
+    const response = await api
+    
+    .post('/api/blog')
+    .send(helper.initialBlogs[0])
+    .expect(201)
+    console.log(response.body.likes)
+    expect(response.body.likes).toEqual(0)
+  })
 
 describe('creating new blog', () => {
   test('blog can be added to db', async () => {
     const numberOfBlogsAtStart = helper.initialBlogs
-    // console.log(numberOfBlogs)
-    const newBlog = {
+     const newBlog = {
       title: 'new blog',
       author: 'new author',
       url: 'test.com',
