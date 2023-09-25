@@ -5,6 +5,8 @@ blogsRouter.get('/' ,async(request,response)=>{
   const blogs = await Blog.find({})
   response.json(blogs)
 })
+
+
 blogsRouter.get('/:id',(request,response,next) => {
   Blog
     .findById(request.params.id)
@@ -26,6 +28,9 @@ blogsRouter.post('/',async (request,response) => {
   const savedBlog = await newBlog.save()
   response.status(201).json(savedBlog)
 })
-
+blogsRouter.delete('/:id',async (request,response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
+})
 
 module.exports = blogsRouter

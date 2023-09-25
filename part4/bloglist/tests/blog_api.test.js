@@ -66,7 +66,19 @@ describe('creating new blog', () => {
     .expect(400)
   })
 })
+describe('deleting blog',()=>{
+  test('deleting first blog', async ()=>{
 
+    const idInitialBlogs = await helper.blogsInDb()
+    const blogToDelete = idInitialBlogs[0]
+    console.log(blogToDelete)
+    await api
+    .delete(`/api/blog/${blogToDelete.id}`)
+    .expect(204)
+    const idEndBlogs = await helper.blogsInDb()
+    expect(idEndBlogs).toHaveLength(idInitialBlogs.length-1)
+  })
+})
 afterAll(async () => {
   await mongoose.connection.close()
 })
