@@ -8,7 +8,8 @@ const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 
-mongoose.connect(config.MONGODB_URI)
+mongoose.connect(process.env.TEST_MONGODB_URI)
+// mongoose.connect(config.MONGODB_URI)
   .then(() => {
     logger.info('connected to db')
   }).catch(error => {

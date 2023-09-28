@@ -1,7 +1,12 @@
 // const mongoose = require('mongoose')
 const Blog = require('../models/blog')
-const emptyBlog = {}
 
+const helperBlog = {
+  title:'Test',
+  author:'Test',
+  url:'Test.com',
+  likes:100
+}
 const initialBlogs = [
   {
     title: 'React patterns',
@@ -40,6 +45,12 @@ const initialBlogs = [
   },
 ];
 
+const nonExistingId = async () => {
+  const blog = new Blog(helperBlog)
+  await blog.save()
+  await blog.deleteOne()
+  return blog._id.toString()
+ }
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map(blog => blog.toJSON())
@@ -47,5 +58,6 @@ const blogsInDb = async () => {
 module.exports = {
   initialBlogs,
   blogsInDb,
-  emptyBlog
+  nonExistingId,
+  helperBlog
 }

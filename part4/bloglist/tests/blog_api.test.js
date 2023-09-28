@@ -4,6 +4,7 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('../tests/blog_api_helper')
+const { blogsInDb } = require('./blog_api_helper')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -64,6 +65,26 @@ describe('creating new blog', () => {
     .post('/api/blog')
     .send(helper.emptyBlog)
     .expect(400)
+  })
+})
+
+describe('updating blog',() =>{
+  test('updating blog',async () =>{
+    const initialBlogs = await helper.blogsInDb()
+    const blogToUpdate = initialBlogs[2]
+    await api
+    .put(`/api/blog/${blogToUpdate.id}`)
+    .send(helper.helperBlog)
+    .expect(200)
+    const updatedBlog = await Blog.findById(blogToUpdate.id)
+    expect(updatedBlog.likes).toBe(helper.helperBlog.likes)
+  })
+  test('updating blog with invalid id',async () => {
+    const blogToUpdate = await helper.nonExistingId()
+    await api
+    .put(`/api/blog/${blogToUpdate}`)
+    .send(helper.helperBlog)
+    .expect(404)
   })
 })
 describe('deleting blog',()=>{
